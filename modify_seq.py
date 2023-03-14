@@ -13,6 +13,9 @@ import glob
 from Bio import SeqIO
 from Bio.Seq import Seq
 import re
+import shutil
+
+
 from utils import change_seq
 
 
@@ -68,29 +71,157 @@ for condition in sequences.keys():
         os.chdir(f'seq_{id}')
 
     
-        # We isolate the CDS of interest so it can be modified 
-        temp_CDS = [rec for rec in temp_scer_records if rec.id == id][0]
+        
 
         # Each CDS is going to be diminished ... 
         os.mkdir('remove')
 
+         ######################
+
+        # 10
+
+        ######################
+
+
         # ... by 10% of its length, then 20%, then 30 ...
         os.mkdir('remove/len_10')
 
-        # We remove the original CDS from a temporary Scer multiCDS fasta
+        # For that, we store a temporary version of the Scer multiCDS
         temp_scer_records = Scer_records
+
+        # We isolate the CDS of interest so it can be modified 
+        temp_CDS = [rec for rec in temp_scer_records if rec.id == id][0]
+
+        # We remove the original CDS of interest from the temporary Scer multiCDS
         temp_scer_records = [rec for rec in temp_scer_records if rec.id != id]
 
-        changed_CDS = change_seq(temp_CDS)
+        # We create a novel version of the CDS of interest ( here : trunkated by 10% )
+        changed_CDS = change_seq(temp_CDS, percent = 10, lengthen = False)  
 
+        temp_scer_records = list(temp_scer_records)
+        temp_scer_records.append(changed_CDS)
+
+        with open("remove/len_10/Scer_NCBI_CDS.pep","w") as f:
+            SeqIO.write(temp_scer_records, f, "fasta")
+        f.close()
+
+        shutil.copyfile("../../orthoData/Sarb_CDS.pep", "remove/len_10/Sarb_CDS.pep")
+        shutil.copyfile("orthoData/Sbay_CDS.pep", "remove/len_10/Sbay_CDS.pep")
+        shutil.copyfile("orthoData/Skud_CDS.pep", "remove/len_10/Skud_CDS.pep")
+        shutil.copyfile("orthoData/Smik_CDS.pep", "remove/len_10/Smik_CDS.pep")
+        shutil.copyfile("orthoData/Spar_NCBI_CDS.pep", "remove/len_10/Spar_NCBI_CDS.pep")
         
+        ######################
 
+        # 20
 
+        ######################
 
         os.mkdir('remove/len_20')
+
+        temp_scer_records = Scer_records
+        temp_scer_records = [rec for rec in temp_scer_records if rec.id != id]
+        changed_CDS = change_seq(temp_CDS, percent = 20, lengthen = False)  
+        temp_scer_records = list(temp_scer_records)
+        temp_scer_records.append(changed_CDS)
+
+        with open("remove/len_20/Scer_NCBI_CDS.pep","w") as f:
+            SeqIO.write(temp_scer_records, f, "fasta")
+        f.close()
+
+        shutil.copyfile("orthoData/Sarb_CDS.pep", "remove/len_20/Sarb_CDS.pep")
+        shutil.copyfile("orthoData/Sbay_CDS.pep", "remove/len_20/Sbay_CDS.pep")
+        shutil.copyfile("orthoData/Skud_CDS.pep", "remove/len_20/Skud_CDS.pep")
+        shutil.copyfile("orthoData/Smik_CDS.pep", "remove/len_20/Smik_CDS.pep")
+        shutil.copyfile("orthoData/Spar_NCBI_CDS.pep", "remove/len_20/Spar_NCBI_CDS.pep")
+
+             
+        ######################
+
+        # 30 
+
+        ######################
+
         os.mkdir('remove/len_30')
+
+
+
+        temp_scer_records = Scer_records
+
+        # We remove the original CDS of interest from the temporary Scer multiCDS
+        temp_scer_records = [rec for rec in temp_scer_records if rec.id != id]
+
+        # We create a novel version of the CDS of interest ( here : trunkated by 30% )
+        changed_CDS = change_seq(temp_CDS, percent = 30, lengthen = False)  
+
+        temp_scer_records = list(temp_scer_records)
+        temp_scer_records.append(changed_CDS)
+
+        with open("remove/len_30/Scer_NCBI_CDS.pep","w") as f:
+            SeqIO.write(temp_scer_records, f, "fasta")
+        f.close()
+
+        shutil.copyfile("orthoData/Sarb_CDS.pep", "remove/len_30/Sarb_CDS.pep")
+        shutil.copyfile("orthoData/Sbay_CDS.pep", "remove/len_30/Sbay_CDS.pep")
+        shutil.copyfile("orthoData/Skud_CDS.pep", "remove/len_30/Skud_CDS.pep")
+        shutil.copyfile("orthoData/Smik_CDS.pep", "remove/len_30/Smik_CDS.pep")
+        shutil.copyfile("orthoData/Spar_NCBI_CDS.pep", "remove/len_30/Spar_NCBI_CDS.pep")
+
+        ######################
+
+        # 40
+
+        ######################
+
         os.mkdir('remove/len_40')
+
+        temp_scer_records = Scer_records
+
+        temp_scer_records = [rec for rec in temp_scer_records if rec.id != id]
+
+        changed_CDS = change_seq(temp_CDS, percent = 40, lengthen = False)  
+
+        temp_scer_records = list(temp_scer_records)
+        temp_scer_records.append(changed_CDS)
+
+        with open("remove/len_40/Scer_NCBI_CDS.pep","w") as f:
+            SeqIO.write(temp_scer_records, f, "fasta")
+        f.close()
+
+        shutil.copyfile("orthoData/Sarb_CDS.pep", "remove/len_40/Sarb_CDS.pep")
+        shutil.copyfile("orthoData/Sbay_CDS.pep", "remove/len_40/Sbay_CDS.pep")
+        shutil.copyfile("orthoData/Skud_CDS.pep", "remove/len_40/Skud_CDS.pep")
+        shutil.copyfile("orthoData/Smik_CDS.pep", "remove/len_40/Smik_CDS.pep")
+        shutil.copyfile("orthoData/Spar_NCBI_CDS.pep", "remove/len_40/Spar_NCBI_CDS.pep")
+
+
+        ######################
+
+        # 50
+
+        ######################
+
+
         os.mkdir('remove/len_50')
+
+        temp_scer_records = Scer_records
+
+        temp_scer_records = [rec for rec in temp_scer_records if rec.id != id]
+
+        changed_CDS = change_seq(temp_CDS, percent = 50, lengthen = False)  
+
+        temp_scer_records = list(temp_scer_records)
+        temp_scer_records.append(changed_CDS)
+
+        with open("remove/len_50/Scer_NCBI_CDS.pep","w") as f:
+            SeqIO.write(temp_scer_records, f, "fasta")
+        f.close()
+
+        shutil.copyfile("orthoData/Sarb_CDS.pep", "remove/len_50/Sarb_CDS.pep")
+        shutil.copyfile("orthoData/Sbay_CDS.pep", "remove/len_50/Sbay_CDS.pep")
+        shutil.copyfile("orthoData/Skud_CDS.pep", "remove/len_50/Skud_CDS.pep")
+        shutil.copyfile("orthoData/Smik_CDS.pep", "remove/len_50/Smik_CDS.pep")
+        shutil.copyfile("orthoData/Spar_NCBI_CDS.pep", "remove/len_50/Spar_NCBI_CDS.pep")
 
         os.mkdir('append')
         os.mkdir('append/len_10')
