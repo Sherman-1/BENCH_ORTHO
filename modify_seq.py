@@ -140,7 +140,7 @@ for condition in sequences.keys():
 
         with open(f"seq_{id}/remove/len_20/Scer_NCBI_CDS.pep","w") as f:
             SeqIO.write(temp_scer_records, f, "fasta")
-        f.close()
+        f.close()   
 
         shutil.copyfile("../../orthoData/Sarb_CDS.pep", f"seq_{id}/remove/len_20/Sarb_CDS.pep")
         shutil.copyfile("../../orthoData/Sbay_CDS.pep", f"seq_{id}/remove/len_20/Sbay_CDS.pep")
