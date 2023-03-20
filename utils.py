@@ -16,11 +16,11 @@ def change_seq(record, percent = 10, lengthen = True):
     
     if lengthen == True:
         
-        new_seq = Seq(temp_seq + iORF[0:number_of_char])
+        new_seq = Seq(str(temp_seq + iORF[0:number_of_char]))
     
     else:
         
-        new_seq = Seq(temp_seq[:-number_of_char])
+        new_seq = Seq(str(temp_seq[:-number_of_char]))
     
     
     record.seq = new_seq
