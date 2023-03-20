@@ -1,7 +1,17 @@
 #!/bin/sh
 
 
-wd="Single_Copy_Orthologue_Sequences/"
+
+if [ -z "$1" ]
+then
+
+	wd="Single_Copy_Orthologue_Sequences/"
+
+else
+
+	wd=$1
+
+fi
 
 # Change to folder with selected sequences to change
 current_dir=$(pwd)

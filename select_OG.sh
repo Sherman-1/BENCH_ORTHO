@@ -6,6 +6,8 @@
 
 
 wd=$(pwd)
+
+
 if [ -z "$1" ]
 then
 
