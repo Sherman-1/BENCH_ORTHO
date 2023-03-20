@@ -11,9 +11,9 @@ We also test for depletion on one of the sequences.
 import os
 import glob
 from Bio import SeqIO
-from Bio.Seq import Seq
 import re
 import shutil
+import itertools
 
 
 from utils import change_seq
@@ -80,16 +80,23 @@ for condition in sequences.keys():
         # Each CDS is going to be diminished or lengthened
         os.mkdir(f'seq_{id}/remove')
 
-        Scer_records = SeqIO.parse("../../orthoData/Scer_NCBI_CDS.pep", "fasta")
+        Scer_records = list(SeqIO.parse("../../orthoData/Scer_NCBI_CDS.pep", "fasta"))
 
 
         # For that, we store a temporary version of the Scer multiCDS
-        temp_scer_records = Scer_records
+        temp_scer_records = []
 
-        # We isolate the CDS of interest so it can be modified 
-        temp_CDS = [rec for rec in temp_scer_records if rec.id == id]
+        for record in Scer_records:
+
+            if record.id != id:
+                temp_scer_records.append(record)
+
+            elif record.id == id:
+                temp_CDS = record
+        
+        print(f"Temp scer après qu'on enlève temp_CDS : {len(temp_scer_records)}")
         print(f'Object filtered from Scer records : {temp_CDS}')
-        temp_CDS = temp_CDS[0]
+        temp_CDS = temp_CDS
 
          ######################
 
@@ -102,17 +109,17 @@ for condition in sequences.keys():
         os.mkdir(f'seq_{id}/remove/len_10')
 
 
-        
-
-
         # We remove the original CDS of interest from the temporary Scer multiCDS
-        temp_scer_records = [rec for rec in temp_scer_records if rec.id != id]
+
+        print(f"Temp scer après filtre de la séquence : {len(temp_scer_records)}")
 
         # We create a novel version of the CDS of interest ( here : trunkated by 10% )
         changed_CDS = change_seq(temp_CDS, percent = 10, lengthen = False)  
 
-        temp_scer_records = list(temp_scer_records)
+
         temp_scer_records.append(changed_CDS)
+
+        print(f"Temp scer records après append : {len(temp_scer_records)}")
 
         with open(f"seq_{id}/remove/len_10/Scer_NCBI_CDS.pep","w") as f:
             SeqIO.write(temp_scer_records, f, "fasta")
