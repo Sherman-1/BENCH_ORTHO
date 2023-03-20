@@ -6,8 +6,18 @@
 
 
 wd=$(pwd)
+if [ -z "$1" ]
+then
 
-cd "Single_Copy_Orthologue_Sequences/"
+	SingleDir="Single_Copy_Orthologue_Sequences/"
+
+else
+
+	SingleDir=$1
+
+fi
+
+cd $SingleDir
 
 
 # Keep touch of which OGroup is used for benchmarking
