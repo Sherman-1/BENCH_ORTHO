@@ -11,9 +11,7 @@ then
     mkdir temp
 fi
 
-res_bench
 
-i=1
 
 
 for dir in $(find Modified_data/ -maxdepth 4 -mindepth 4); do
@@ -25,7 +23,7 @@ for dir in $(find Modified_data/ -maxdepth 4 -mindepth 4); do
     length=$(echo  ${dir} | awk 'BEGIN { FS = "/" }; { print $5 }')
 
     # Compute orthologs with OrthoFinder
-    orthofinder -t 16 -f Modified_data/$cond/$seq/$action/$length -o ${cond}_${seq}_${action}_${length}
+    orthofinder -t 20 -f Modified_data/$cond/$seq/$action/$length -o ${cond}_${seq}_${action}_${length}
 
     mkdir res_bench/${cond}_${seq}_${action}_${length}
     mkdir res_bench/${cond}_${seq}_${action}_${length}/GeneCount
