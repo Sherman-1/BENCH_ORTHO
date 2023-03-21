@@ -21,16 +21,6 @@ from Bio.SeqRecord import SeqRecord
 from utils import change_seq
 
 
-# Store all the multiCDS for each species
-Sarb_records = SeqIO.parse("orthoData/Sarb_CDS.pep", "fasta")
-Sbay_records = SeqIO.parse("orthoData/Sbay_CDS.pep", "fasta")
-Skud_records = SeqIO.parse("orthoData/Skud_CDS.pep", "fasta")
-Spar_records = SeqIO.parse("orthoData/Spar_NCBI_CDS.pep", "fasta")
-Smik_records = SeqIO.parse("orthoData/Smik_CDS.pep","fasta")
-
-
-
-
 files = glob.glob("rna*")
 sequences = {}
 

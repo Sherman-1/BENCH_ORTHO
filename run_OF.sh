@@ -25,10 +25,10 @@ for dir in $(find Modified_data/ -maxdepth 4 -mindepth 4); do
     length=$(echo  ${dir} | awk 'BEGIN { FS = "/" }; { print $5 }')
 
     # Compute orthologs with OrthoFinder
-    orthofinder -f Modified_data/$cond/$seq/$action/$length -o ${cond}_${seq}_${action}_${length}
+    orthofinder -t 16 -f Modified_data/$cond/$seq/$action/$length -o ${cond}_${seq}_${action}_${length}
 
-    mkdir abs_path/${cond}_${seq}_${action}_${length}
-    mkdir abs_path/${cond}_${seq}_${action}_${length}/GeneCount
+    mkdir ${abs_path}/${cond}_${seq}_${action}_${length}
+    mkdir ${abs_path}/${cond}_${seq}_${action}_${length}/GeneCount
 
     # Use OrthoFinder tools to count how many genes per species for each Phylogenetic Orthogroup of node N0 ( enclude all species )
     python3 ~/utils/OrthoFinder/tools/orthogroup_gene_count.py ${cond}_${seq}_${action}_${length}/*/Phylogenetic_Hierarchical_Orthogroups/N0.tsv 
@@ -39,6 +39,6 @@ for dir in $(find Modified_data/ -maxdepth 4 -mindepth 4); do
 
     rm -rf ${cond}_${seq}_${action}_${length}
 
-
+    break
 
 done
