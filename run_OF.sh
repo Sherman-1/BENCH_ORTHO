@@ -6,12 +6,15 @@ then
     mkdir res_bench 
 fi
 
-if [ -d "temp" ]
+if [ ! -d "temp" ]
 then
-    rm -rf temp
+    mkdir temp
 fi
 
 abs_path=$(pwd)/res_bench
+
+i=1
+
 
 for dir in $(find Modified_data/ -maxdepth 4 -mindepth 4); do
 
@@ -21,14 +24,21 @@ for dir in $(find Modified_data/ -maxdepth 4 -mindepth 4); do
     action=$(echo  ${dir} | awk 'BEGIN { FS = "/" }; { print $4 }')
     length=$(echo  ${dir} | awk 'BEGIN { FS = "/" }; { print $5 }')
 
-    
-    orthofinder -f Modified_data/$cond/$seq/$action/$length -op -o temp
+    # Compute orthologs with OrthoFinder
+    orthofinder -f Modified_data/$cond/$seq/$action/$length -o ${cond}_${seq}_${action}_${length}
 
-    mv temp/Results_Mar21/Log.txt $abs_path/${cond}_${seq}_${action}_${length}
+    mkdir abs_path/${cond}_${seq}_${action}_${length}
+    mkdir abs_path/${cond}_${seq}_${action}_${length}/GeneCount
 
-    rm -rf temp
+    # Use OrthoFinder tools to count how many genes per species for each Phylogenetic Orthogroup of node N0 ( enclude all species )
+    python3 ~/utils/OrthoFinder/tools/orthogroup_gene_count.py ${cond}_${seq}_${action}_${length}/*/Phylogenetic_Hierarchical_Orthogroups/N0.tsv 
+
+    mv ${cond}_${seq}_${action}_${length}/*/Phylogenetic_Hierarchical_Orthogroups/N0.GeneCount.csv abs_path/${cond}_${seq}_${action}_${length}/GeneCount
+
+    python3 ~/utils/OrthoFinder/tools/create_files_for_hogs.py ${cond}_${seq}_${action}_${length}/* abs_path/${cond}_${seq}_${action}_${length}/HOGS_fa N0
+
+    rm -rf ${cond}_${seq}_${action}_${length}
 
 
-    # grep -Eo "[0-9]+"
 
 done
