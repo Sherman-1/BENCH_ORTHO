@@ -11,5 +11,7 @@ for file in rna*.txt; do
 
         grep -r $id Single_Hog
 
+    done
+
 done
 
